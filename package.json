@@ -1,6 +1,6 @@
 {
   "name": "multer-s3",
-  "version": "3.0.1",
+  "version": "3.0.2",
   "description": "Streaming multer storage engine for AWS S3",
   "main": "index.js",
   "scripts": {
@@ -11,7 +11,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/badunk/multer-s3.git"
+    "url": "git+https://github.com/GleapSDK/multer-s3.git"
   },
   "keywords": [
     "multer",
@@ -22,9 +22,9 @@
   "author": "badunk",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/badunk/multer-s3/issues"
+    "url": "https://github.com/GleapSDK/multer-s3/issues"
   },
-  "homepage": "https://github.com/badunk/multer-s3#readme",
+  "homepage": "https://github.com/GleapSDK/multer-s3#readme",
   "dependencies": {
     "@aws-sdk/lib-storage": "^3.46.0",
     "file-type": "^3.3.0",
