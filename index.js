@@ -8,7 +8,6 @@ var DeleteObjectCommand = require("@aws-sdk/client-s3").DeleteObjectCommand;
 var util = require("util");
 const sanitizeHtml = require("sanitize-html"); // Add this to your imports
 
-// Sanitize SVG function
 const sanitizeSvg = (svgContent) => {
   return sanitizeHtml(svgContent, {
     allowedTags: [
@@ -22,6 +21,15 @@ const sanitizeSvg = (svgContent) => {
       "polygon",
       "polyline",
       "ellipse",
+      "defs",
+      "clipPath",
+      "symbol",
+      "use",
+      "linearGradient",
+      "radialGradient",
+      "stop",
+      "filter",
+      "mask",
     ],
     allowedAttributes: {
       "*": [
@@ -39,6 +47,18 @@ const sanitizeSvg = (svgContent) => {
         "height",
         "viewBox",
         "xlink:href",
+        "xmlns",
+        "preserveAspectRatio",
+        "opacity",
+        "transform",
+        "stroke-width",
+        "stroke-linecap",
+        "stroke-linejoin",
+        "font-family",
+        "font-size",
+        "href",
+        "id",
+        "text-anchor", // Added for <text> alignment
       ],
     },
     allowedSchemes: ["http", "https"],
