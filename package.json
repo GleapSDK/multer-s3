@@ -1,5 +1,5 @@
 {
-  "name": "multer-s3",
+  "name": "multer-s3-svgsanitycheck",
   "version": "3.0.3",
   "description": "Streaming multer storage engine for AWS S3",
   "main": "index.js",
