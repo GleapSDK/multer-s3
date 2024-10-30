@@ -58,10 +58,15 @@ const sanitizeSvg = (svgContent) => {
         "font-size",
         "href",
         "id",
-        "text-anchor", // Added for <text> alignment
+        "text-anchor",
       ],
     },
-    allowedSchemes: ["http", "https"],
+    parser: {
+      lowerCaseAttributeNames: false,
+      lowerCaseTags: false,
+      recognizeCDATA: true,
+    },
+    allowedSchemes: ["*"],
   });
 };
 
