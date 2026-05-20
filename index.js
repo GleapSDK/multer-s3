@@ -8,8 +8,27 @@ var DeleteObjectCommand = require("@aws-sdk/client-s3").DeleteObjectCommand;
 var util = require("util");
 const sanitizeHtml = require("sanitize-html"); // Add this to your imports
 
+// Strip CSS constructs that can load external resources or execute code.
+// Applied to the contents of any surviving <style> block.
+const stripUnsafeCss = (svg) => {
+  return svg.replace(/<style\b[^>]*>([\s\S]*?)<\/style>/gi, (_, css) => {
+    const cleaned = css
+      .replace(/@import[^;]*;?/gi, "")
+      .replace(/@charset[^;]*;?/gi, "")
+      .replace(/url\s*\([^)]*\)/gi, "")
+      .replace(/expression\s*\([^)]*\)/gi, "");
+    return "<style>" + cleaned + "</style>";
+  });
+};
+
 const sanitizeSvg = (svgContent) => {
-  return sanitizeHtml(svgContent, {
+  const sanitized = sanitizeHtml(svgContent, {
+    // <style> is allowed so Illustrator "Internal CSS" exports keep their fills.
+    // Output is served as image/svg+xml from a separate static-files origin and
+    // loaded via <img>, so external resources / scripts inside the SVG are
+    // blocked by the browser. stripUnsafeCss() below removes @import/url() as
+    // belt-and-braces in case the file is ever inlined.
+    allowVulnerableTags: true,
     allowedTags: [
       "svg",
       "g",
@@ -30,10 +49,12 @@ const sanitizeSvg = (svgContent) => {
       "stop",
       "filter",
       "mask",
+      "style",
     ],
     allowedAttributes: {
       "*": [
         "style",
+        "class",
         "fill",
         "stroke",
         "d",
@@ -68,6 +89,7 @@ const sanitizeSvg = (svgContent) => {
     },
     allowedSchemes: ["*"],
   });
+  return stripUnsafeCss(sanitized);
 };
 
 function staticValue(value) {
